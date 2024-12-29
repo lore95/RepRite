@@ -61,8 +61,8 @@ class DataManipulationController {
           let pitch = atan2(-normX, sqrt(normY * normY + normZ * normZ)) * 180 / .pi
 
           // Print for debugging
-          print("Normalized Z: \(normZ), Tilt Angle: \(tiltAngle), Roll: \(roll), Pitch: \(pitch)")
-
+          //print("Normalized Z: \(normZ), Tilt Angle: \(tiltAngle), Roll: \(roll), Pitch: \(pitch)")
+        
           return (tiltAngle, roll, pitch)
 
     }

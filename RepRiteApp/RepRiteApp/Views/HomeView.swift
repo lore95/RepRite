@@ -15,10 +15,8 @@ struct HomeView: View {
                     .overlay(Circle().stroke(Color.blue, lineWidth: 4))
                 
                 Text(userName)
-                    .font(.title)
                     .bold()
                     .font(Font.custom("SpotLight-Regular", size: 24)) // Use the PostScript name here
-                
                 Text("Basketball Player")
                     .font(.subheadline)
                     .foregroundColor(.gray)
@@ -33,19 +31,20 @@ struct HomeView: View {
             HStack(spacing: 20) {
                 VStack {
                     Text("10")
-                        .font(.title2)
+                        .font(Font.custom("SpotLight-Regular", size: 20)) // Use the PostScript name here
                         .bold()
                     Text("Events Partecipated")
-                        .font(.caption)
+                        .font(.headline)
+
                         .foregroundColor(.gray)
                 }
                 
                 VStack {
                     Text("350")
-                        .font(.title2)
+                        .font(Font.custom("SpotLight-Regular", size: 20)) // Use the PostScript name here
                         .bold()
                     Text("Repetitions Done")
-                        .font(.caption)
+                        .font(.headline)
                         .foregroundColor(.gray)
                 }
             }
@@ -57,7 +56,7 @@ struct HomeView: View {
             // Activity Section
             VStack(alignment: .leading) {
                 Text("Activity")
-                    .font(.title2)
+                    .font(Font.custom("SpotLight-Regular", size: 25)) // Use the PostScript name here
                     .bold()
                     .padding(.bottom, 10)
                 

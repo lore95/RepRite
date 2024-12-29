@@ -9,7 +9,7 @@ struct LogoutView: View {
     var body: some View {
         VStack {
             Text("Logout")
-                .font(.largeTitle)
+                .font(Font.custom("SpotLight-Regular", size: 40)) // Custom Font for Repetitions
                 .padding()
             
             Button(action: {

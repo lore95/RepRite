@@ -11,7 +11,7 @@ struct DataAcquisitionView: View {
         VStack(spacing: 20) {
             // Title with Device Name
             Text("Connected to \(deviceName)")
-                .font(.title)
+                .font(Font.custom("SpotLight-Regular", size: 20)) // Custom Font for Repetitions
                 .bold()
                 .padding(.top, 20)
 

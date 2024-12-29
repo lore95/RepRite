@@ -97,7 +97,7 @@ struct SensorConnectView: View {
                 .disabled(isSearching)
 
             Text(searchStatusMessage)
-                .font(.headline)
+                .font(Font.custom("SpotLight-Regular", size: 10)) // Custom Font for Repetitions
                 .foregroundColor(.gray)
 
             if showNoDeviceFound {
@@ -117,6 +117,8 @@ struct SensorConnectView: View {
             }) {
                 HStack {
                     Text(exercise)
+                    .font(Font.custom("SpotLight-Regular", size: 15)) // Custom Font for Repetitions
+
                     Spacer()
                     Image(systemName: "plus.circle")
                 }
@@ -128,7 +130,7 @@ struct SensorConnectView: View {
     private var exerciseListView: some View {
         VStack(alignment: .leading) {
             Text("Exercises Added:")
-                .font(.headline)
+                .font(Font.custom("SpotLight-Regular", size: 10)) // Custom Font for Repetitions
             ForEach(exercises, id: \.typeOfExercise) { exercise in
                 HStack {
                     Text("\(exercise.typeOfExercise):")
@@ -149,7 +151,7 @@ struct SensorConnectView: View {
             }
         }) {
             Text("Set Up session")
-                .font(.headline)
+                .font(Font.custom("SpotLight-Regular", size: 10)) // Custom Font for Repetitions
                 .foregroundColor(.white)
                 .padding()
                 .background(Color.blue)
@@ -166,7 +168,7 @@ struct SensorConnectView: View {
             exercises = []
         }) {
             Text("Disconnect")
-                .font(.headline)
+                .font(Font.custom("SpotLight-Regular", size: 10)) // Custom Font for Repetitions
                 .foregroundColor(.white)
                 .padding()
                 .background(Color.red)
@@ -178,8 +180,9 @@ struct SensorConnectView: View {
     private var popupForRepetitions: some View {
             VStack {
                 Text("Number of Reps")
-                    .font(.headline)
                     .padding(.top, 20)
+                    .font(Font.custom("SpotLight-Regular", size: 15)) // Custom Font for Repetitions
+
 
                 TextField("Enter number of reps", text: $numberOfRepetitions)
                     .keyboardType(.numberPad)
@@ -187,6 +190,7 @@ struct SensorConnectView: View {
                     .background(Color.gray.opacity(0.2))
                     .cornerRadius(8)
                     .padding(.horizontal, 40)
+
 
                 HStack {
                     Button("Cancel") {
@@ -196,6 +200,8 @@ struct SensorConnectView: View {
                     .padding()
                     .background(Color.gray.opacity(0.3))
                     .cornerRadius(8)
+                    .font(Font.custom("SpotLight-Regular", size: 15)) // Custom Font for Repetitions
+
 
                     Button("Add") {
                         if let exercise = selectedExercise, let reps = Int(numberOfRepetitions), reps > 0 {
@@ -208,6 +214,8 @@ struct SensorConnectView: View {
                     .background(Color.green)
                     .cornerRadius(8)
                     .foregroundColor(.white)
+                    .font(Font.custom("SpotLight-Regular", size: 15)) // Custom Font for Repetitions
+
                 }
                 .padding(.top, 20)
             }

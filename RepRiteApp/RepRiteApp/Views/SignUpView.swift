@@ -26,7 +26,7 @@ struct SignupView: View {
             ScrollView {
                 VStack(spacing: 20) {
                     Text("Signup")
-                        .font(.largeTitle)
+                        .font(Font.custom("SpotLight-Regular", size: 40)) // Custom Font for Repetitions
                         .foregroundColor(.white)
                         .padding(.top, 20)
                     
@@ -44,7 +44,7 @@ struct SignupView: View {
                     if !usernameErrorMessage.isEmpty {
                         Text(usernameErrorMessage)
                             .foregroundColor(.red)
-                            .font(.caption)
+                            .font(Font.custom("SpotLight-Regular", size: 20)) // Custom Font for Repetitions
                     }
                     
                     // Other Input Fields

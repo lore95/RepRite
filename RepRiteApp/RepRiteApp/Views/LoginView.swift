@@ -10,18 +10,21 @@ struct LoginView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-                Text("Sports App Login")
-                    .font(.largeTitle)
+                Text("RepRite")
                     .foregroundColor(.white)
-                    .font(Font.custom("SpotLight-Regular", size: 24)) // Use the PostScript name here
-                
-                TextField("Username", text: $userName)
+                    .font(Font.custom("SpotLight-Regular", size: 80)) // Custom Font for Repetitions
+
+                TextField("Username", text: $userName, onEditingChanged: { _ in
+                    loginFailed = false // Clear error message when typing
+                })
                     .padding()
                     .background(Color.gray.opacity(0.2))
                     .cornerRadius(8)
                     .foregroundColor(.white)
                 
-                SecureField("Password", text: $password) // Hide password input
+                SecureField("Password", text: $password, onCommit: {
+                    loginFailed = false // Clear error message when typing
+                })
                     .padding()
                     .background(Color.gray.opacity(0.2))
                     .cornerRadius(8)
@@ -31,7 +34,7 @@ struct LoginView: View {
                     if DBController.shared.validateUser(userName: userName, password: password) {
                         isLoggedIn = true
                     } else {
-                        loginFailed = true
+                        showLoginFailedMessage()
                     }
                 }) {
                     Text("Login")
@@ -40,14 +43,19 @@ struct LoginView: View {
                         .padding()
                         .background(Color.black)
                         .cornerRadius(8)
+                        .font(Font.custom("SpotLight-Regular", size: 20)) // Custom Font for Repetitions
+
                 }
                 
                 NavigationLink("Create Account", destination: SignupView())
                     .foregroundColor(.white)
+                    .font(Font.custom("SpotLight-Regular", size: 20)) // Custom Font for Repetitions
+
                 
                 if loginFailed {
                     Text("Invalid Credentials!")
                         .foregroundColor(.red)
+                        .transition(.opacity)
                 }
                 
                 NavigationLink(
@@ -58,6 +66,16 @@ struct LoginView: View {
             }
             .padding()
             .background(Color.black.edgesIgnoringSafeArea(.all))
+        }
+    }
+    
+    // MARK: - Helper Methods
+    private func showLoginFailedMessage() {
+        loginFailed = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            if loginFailed {
+                loginFailed = false // Hide the message after 1 second
+            }
         }
     }
 }
