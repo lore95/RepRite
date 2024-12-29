@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C10AC4DA2D21E93B00756521 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C10AC4D92D21E93B00756521 /* GoogleService-Info.plist */; };
 		C17D45C42D15DE9900DB4CE3 /* RepRiteAuthUser+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17D45C32D15DE9900DB4CE3 /* RepRiteAuthUser+CoreDataProperties.swift */; };
 		C17D45C52D15DE9900DB4CE3 /* RepRiteAuthUser+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17D45C22D15DE9900DB4CE3 /* RepRiteAuthUser+CoreDataClass.swift */; };
 /* End PBXBuildFile section */
@@ -29,6 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C10AC4D92D21E93B00756521 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C17D45852D15DDC400DB4CE3 /* RepRiteApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RepRiteApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C17D45952D15DDC600DB4CE3 /* RepRiteAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RepRiteAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C17D459F2D15DDC600DB4CE3 /* RepRiteAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RepRiteAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -36,9 +38,22 @@
 		C17D45C32D15DE9900DB4CE3 /* RepRiteAuthUser+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "RepRiteAuthUser+CoreDataProperties.swift"; path = "RepRiteApp/Models/RepRiteAuthUser+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C10AC4CD2D21CA4200756521 /* Exceptions for "RepRiteApp" folder in "RepRiteApp" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C17D45842D15DDC400DB4CE3 /* RepRiteApp */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C17D45872D15DDC400DB4CE3 /* RepRiteApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C10AC4CD2D21CA4200756521 /* Exceptions for "RepRiteApp" folder in "RepRiteApp" target */,
+			);
 			path = RepRiteApp;
 			sourceTree = "<group>";
 		};
@@ -76,6 +91,7 @@
 				C17D45C32D15DE9900DB4CE3 /* RepRiteAuthUser+CoreDataProperties.swift */,
 				C17D45872D15DDC400DB4CE3 /* RepRiteApp */,
 				C17D45862D15DDC400DB4CE3 /* Products */,
+				C10AC4D92D21E93B00756521 /* GoogleService-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -161,6 +177,9 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
+				KnownAssetTags = (
+					New,
+				);
 				LastSwiftUpdateCheck = 1610;
 				LastUpgradeCheck = 1610;
 				TargetAttributes = {
@@ -186,6 +205,9 @@
 			);
 			mainGroup = C17D457C2D15DDC400DB4CE3;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C10AC4DB2D21EA2800756521 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C17D45862D15DDC400DB4CE3 /* Products */;
 			projectDirPath = "";
@@ -203,6 +225,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C10AC4DA2D21E93B00756521 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,8 +415,7 @@
 				DEVELOPMENT_TEAM = VTJ697TH2U;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = NSBluetoothAlwaysUsageDescription;
-				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = NSBluetoothPeripheralUsageDescription;
+				INFOPLIST_FILE = RepRiteApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -424,8 +446,7 @@
 				DEVELOPMENT_TEAM = VTJ697TH2U;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = NSBluetoothAlwaysUsageDescription;
-				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = NSBluetoothPeripheralUsageDescription;
+				INFOPLIST_FILE = RepRiteApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -557,6 +578,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C10AC4DB2D21EA2800756521 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = C17D457D2D15DDC400DB4CE3 /* Project object */;
 }

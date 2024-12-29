@@ -51,6 +51,7 @@ struct SensorConnectView: View {
         }
         .sheet(isPresented: $showFoundDevices) {
             FoundDevicesView(onDeviceSelected: stopSearch)
+            
         }
         .sheet(isPresented: $isPopupVisible) {
             popupForRepetitions
@@ -142,6 +143,10 @@ struct SensorConnectView: View {
     private var startButton: some View {
         Button(action: {
             navigateToExerciseView = true
+            if let dataModel = deviceManager.selectedDataModel
+            {
+                dataModel.stopRecording()
+            }
         }) {
             Text("Set Up session")
                 .font(.headline)
@@ -240,5 +245,6 @@ struct SensorConnectView: View {
         showFoundDevices = false
         searchStatusMessage = "Search for devices"
         deviceManager.stopScanning()
+        
     }
 }

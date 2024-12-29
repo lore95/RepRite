@@ -13,6 +13,7 @@ struct LoginView: View {
                 Text("Sports App Login")
                     .font(.largeTitle)
                     .foregroundColor(.white)
+                    .font(Font.custom("SpotLight-Regular", size: 24)) // Use the PostScript name here
                 
                 TextField("Username", text: $userName)
                     .padding()

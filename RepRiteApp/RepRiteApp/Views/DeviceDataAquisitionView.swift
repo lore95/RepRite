@@ -39,17 +39,7 @@ struct DataAcquisitionView: View {
                 }
             }
 
-            // Real-time Data Plot
-            /*VStack {
-                Text("Live Angle Plot")
-                    .font(.headline)
-                    .padding(.bottom, 10)
-                DataPlotView(dataPoints: dataModel.angleDataPoints)
-                    .frame(height: 200)
-                    .border(Color.gray, width: 1)
-            }
-            .padding()
-*/
+         
             Spacer()
             // Button to Open ResultsView
             Button(action: {

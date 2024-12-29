@@ -8,6 +8,7 @@
 
 import CoreBluetooth
 import Foundation
+import SwiftUI
 
 class DeviceManager: NSObject, ObservableObject, CBCentralManagerDelegate,
     CBPeripheralDelegate
@@ -39,6 +40,12 @@ class DeviceManager: NSObject, ObservableObject, CBCentralManagerDelegate,
         isScanning = true
         discoveredDevices.removeAll()
         centralManager.scanForPeripherals(withServices: nil, options: nil)
+        for family in UIFont.familyNames {
+            print("Font Family: \(family)")
+            for name in UIFont.fontNames(forFamilyName: family) {
+                print("  Font Name: \(name)")
+            }
+        }
     }
     
     // Stop scanning

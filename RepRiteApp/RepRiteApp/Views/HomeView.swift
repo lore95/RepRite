@@ -1,14 +1,14 @@
 import SwiftUI
 
 // MARK: - Profile View
-struct ProfileView: View {
+struct HomeView: View {
     let userName: String
     
     var body: some View {
         VStack {
             // Profile Header
             VStack(spacing: 10) {
-                Image(systemName: "person.circle.fill") // Replace with a real image
+                Image("profpic")
                     .resizable()
                     .frame(width: 100, height: 100)
                     .clipShape(Circle())
@@ -17,12 +17,13 @@ struct ProfileView: View {
                 Text(userName)
                     .font(.title)
                     .bold()
+                    .font(Font.custom("SpotLight-Regular", size: 24)) // Use the PostScript name here
                 
-                Text("Group Fitness Instructor / Personal Trainer")
+                Text("Basketball Player")
                     .font(.subheadline)
                     .foregroundColor(.gray)
                 
-                Text("Los Angeles, CA")
+                Text("Stockholm, Sweden")
                     .font(.caption)
                     .foregroundColor(.gray)
             }
@@ -31,7 +32,7 @@ struct ProfileView: View {
             // Metrics Section
             HStack(spacing: 20) {
                 VStack {
-                    Text("20")
+                    Text("10")
                         .font(.title2)
                         .bold()
                     Text("Events Partecipated")
