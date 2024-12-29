@@ -40,7 +40,7 @@ struct DataAcquisitionView: View {
             }
 
             // Real-time Data Plot
-            VStack {
+            /*VStack {
                 Text("Live Angle Plot")
                     .font(.headline)
                     .padding(.bottom, 10)
@@ -49,7 +49,7 @@ struct DataAcquisitionView: View {
                     .border(Color.gray, width: 1)
             }
             .padding()
-
+*/
             Spacer()
             // Button to Open ResultsView
             Button(action: {
@@ -61,13 +61,6 @@ struct DataAcquisitionView: View {
                     .background(Color.blue)
                     .cornerRadius(10)
             }
-            .fullScreenCover(isPresented: $showResultsView) {
-                ResultsView()  // Present the ResultsView
-            }
-            .fullScreenCover(isPresented: $showPlotView) {
-                PlotAndSaveView(dataModel: dataModel)
-            }
-
             Spacer()
         }
         .padding()

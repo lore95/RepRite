@@ -1,11 +1,9 @@
 import SwiftUI
 import CoreBluetooth
-
 struct FoundDevicesView: View {
     @ObservedObject var deviceManager = DeviceManager.shared
     var onDeviceSelected: () -> Void
 
-    @State private var selectedDataModel: DataAquisitionModel? = nil
     @State private var showDataView = false
 
     var body: some View {
@@ -23,12 +21,8 @@ struct FoundDevicesView: View {
                     VStack {
                         ForEach(deviceManager.discoveredDevices.filter { !deviceManager.pairedDevices.contains($0) }, id: \.identifier) { device in
                             Button(action: {
-                                let dataModel = DataAquisitionModel()
-                                dataModel.configurePeripheral(device) // Directly call configurePeripheral
                                 deviceManager.connect(to: device)
-                                selectedDataModel = dataModel
-                                onDeviceSelected()
-                                showDataView = true
+                                onDeviceSelected() // Notify parent view
                             }) {
                                 HStack {
                                     Text(device.name ?? "Unnamed Device")
@@ -61,9 +55,7 @@ struct FoundDevicesView: View {
                     VStack {
                         ForEach(deviceManager.pairedDevices, id: \.identifier) { device in
                             Button(action: {
-                                let dataModel = DataAquisitionModel()
-                                dataModel.configurePeripheral(device) // Directly call configurePeripheral
-                                selectedDataModel = dataModel
+                                deviceManager.connect(to: device)
                                 showDataView = true
                             }) {
                                 HStack {
@@ -83,10 +75,6 @@ struct FoundDevicesView: View {
             .frame(maxHeight: .infinity)
         }
         .navigationTitle("Devices")
-        .sheet(isPresented: $showDataView) {
-                    if let dataModel = selectedDataModel {
-                        DataAcquisitionView(dataModel: dataModel, deviceName: dataModel.connectedPeripheral?.name ?? "Unknown Device")
-                    }
-                }
+        
     }
 }

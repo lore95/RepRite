@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C17D45C42D15DE9900DB4CE3 /* RepRiteAuthUser+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17D45C32D15DE9900DB4CE3 /* RepRiteAuthUser+CoreDataProperties.swift */; };
+		C17D45C52D15DE9900DB4CE3 /* RepRiteAuthUser+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17D45C22D15DE9900DB4CE3 /* RepRiteAuthUser+CoreDataClass.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		C17D45962D15DDC600DB4CE3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,22 +32,14 @@
 		C17D45852D15DDC400DB4CE3 /* RepRiteApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RepRiteApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C17D45952D15DDC600DB4CE3 /* RepRiteAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RepRiteAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C17D459F2D15DDC600DB4CE3 /* RepRiteAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RepRiteAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C17D45C22D15DE9900DB4CE3 /* RepRiteAuthUser+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "RepRiteAuthUser+CoreDataClass.swift"; path = "RepRiteApp/Models/RepRiteAuthUser+CoreDataClass.swift"; sourceTree = "<group>"; };
+		C17D45C32D15DE9900DB4CE3 /* RepRiteAuthUser+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "RepRiteAuthUser+CoreDataProperties.swift"; path = "RepRiteApp/Models/RepRiteAuthUser+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C17D45872D15DDC400DB4CE3 /* RepRiteApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = RepRiteApp;
-			sourceTree = "<group>";
-		};
-		C17D45982D15DDC600DB4CE3 /* RepRiteAppTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = RepRiteAppTests;
-			sourceTree = "<group>";
-		};
-		C17D45A22D15DDC600DB4CE3 /* RepRiteAppUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = RepRiteAppUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -75,9 +72,9 @@
 		C17D457C2D15DDC400DB4CE3 = {
 			isa = PBXGroup;
 			children = (
+				C17D45C22D15DE9900DB4CE3 /* RepRiteAuthUser+CoreDataClass.swift */,
+				C17D45C32D15DE9900DB4CE3 /* RepRiteAuthUser+CoreDataProperties.swift */,
 				C17D45872D15DDC400DB4CE3 /* RepRiteApp */,
-				C17D45982D15DDC600DB4CE3 /* RepRiteAppTests */,
-				C17D45A22D15DDC600DB4CE3 /* RepRiteAppUITests */,
 				C17D45862D15DDC400DB4CE3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -130,9 +127,6 @@
 			dependencies = (
 				C17D45972D15DDC600DB4CE3 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				C17D45982D15DDC600DB4CE3 /* RepRiteAppTests */,
-			);
 			name = RepRiteAppTests;
 			packageProductDependencies = (
 			);
@@ -152,9 +146,6 @@
 			);
 			dependencies = (
 				C17D45A12D15DDC600DB4CE3 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				C17D45A22D15DDC600DB4CE3 /* RepRiteAppUITests */,
 			);
 			name = RepRiteAppUITests;
 			packageProductDependencies = (
@@ -236,6 +227,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C17D45C42D15DE9900DB4CE3 /* RepRiteAuthUser+CoreDataProperties.swift in Sources */,
+				C17D45C52D15DE9900DB4CE3 /* RepRiteAuthUser+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,15 +388,18 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"RepRiteApp/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"RepRiteApp/Views\"";
 				DEVELOPMENT_TEAM = VTJ697TH2U;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = NSBluetoothAlwaysUsageDescription;
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = NSBluetoothPeripheralUsageDescription;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -424,15 +420,18 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"RepRiteApp/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"RepRiteApp/Views\"";
 				DEVELOPMENT_TEAM = VTJ697TH2U;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = NSBluetoothAlwaysUsageDescription;
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = NSBluetoothPeripheralUsageDescription;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

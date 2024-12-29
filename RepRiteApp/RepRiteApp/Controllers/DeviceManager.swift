@@ -1,3 +1,11 @@
+//
+//  DeviceManager.swift
+//  RepRiteApp
+//
+//  Created by lorewnzo  on 2024-12-29.
+//
+
+
 import CoreBluetooth
 import Foundation
 
@@ -6,7 +14,8 @@ class DeviceManager: NSObject, ObservableObject, CBCentralManagerDelegate,
 {
     static let shared = DeviceManager()
     let dataProcessor = DataManipulationController()
-    
+    var selectedDataModel: DataAquisitionModel? = nil
+
     private var centralManager: CBCentralManager!
     private(set) var discoveredDevices: [CBPeripheral] = []
     @Published var pairedDevices: [CBPeripheral] = []
@@ -17,6 +26,8 @@ class DeviceManager: NSObject, ObservableObject, CBCentralManagerDelegate,
         string: "34802252-7185-4d5d-b431-630e7050e8f0")
     
     @Published var isScanning = false
+    @Published var deviceName = ""
+    @Published var isConnected = false
     
     override init() {
         super.init()
@@ -71,7 +82,11 @@ class DeviceManager: NSObject, ObservableObject, CBCentralManagerDelegate,
         objectWillChange.send()
         peripheral.discoverServices(nil)
         central.scanForPeripherals(withServices: [GATTService], options: nil)
-        
+        deviceName = peripheral.name ?? "Unknown Device"
+        isConnected = true
+        let dataModel = DataAquisitionModel()
+        dataModel.configurePeripheral(peripheral) // Directly call configurePeripheral
+        selectedDataModel = dataModel
         print("Connected to \(peripheral.name ?? "Unknown Device")")
     }
     
@@ -80,6 +95,8 @@ class DeviceManager: NSObject, ObservableObject, CBCentralManagerDelegate,
             centralManager.cancelPeripheralConnection(peripheral)
             print("Disconnected from \(peripheral.name ?? "Unknown Device")")
         }
+        isConnected = false
+        deviceName = ""
         pairedDevices.removeAll() // Clear connected peripherals
         objectWillChange.send()
     }

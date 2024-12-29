@@ -1,3 +1,5 @@
+import SwiftUI
+
 // MARK: - Profile View
 struct ProfileView: View {
     let userName: String
@@ -32,7 +34,7 @@ struct ProfileView: View {
                     Text("20")
                         .font(.title2)
                         .bold()
-                    Text("Team Members")
+                    Text("Events Partecipated")
                         .font(.caption)
                         .foregroundColor(.gray)
                 }
@@ -41,39 +43,14 @@ struct ProfileView: View {
                     Text("350")
                         .font(.title2)
                         .bold()
-                    Text("Connections")
+                    Text("Repetitions Done")
                         .font(.caption)
                         .foregroundColor(.gray)
                 }
             }
             .padding()
             
-            // Buttons
-            HStack(spacing: 20) {
-                Button(action: {
-                    print("Pending tapped")
-                }) {
-                    Text("Pending")
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
-                
-                Button(action: {
-                    print("Connect tapped")
-                }) {
-                    Text("Connect")
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.green)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
-            }
-            .padding(.horizontal)
-            
+          
             Spacer()
             
             // Activity Section

@@ -1,12 +1,17 @@
+
+import SwiftUI
+
+
 // MARK: - Logout View
 struct LogoutView: View {
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         VStack {
-            Text("Are you sure you want to logout?")
-                .font(.title)
-            Spacer()
+            Text("Logout")
+                .font(.largeTitle)
+                .padding()
+            
             Button(action: {
                 presentationMode.wrappedValue.dismiss()
             }) {
@@ -16,6 +21,8 @@ struct LogoutView: View {
                     .foregroundColor(.white)
                     .cornerRadius(8)
             }
+            
+            Spacer()
         }
         .padding()
     }
