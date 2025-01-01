@@ -10,15 +10,14 @@ struct ExerciseView: View {
     @State private var repetitionsLeft: Int = 0
     @State private var currentExerciseIndex: Int = 0
     @State private var isAboveThreshold = false
-    @State private var isProgessVisible = true
     @State private var saveSessionPopUp = false
+    
     let exercises: [(typeOfExercise: String, numberOfRepetitions: Int)]
-
     var body: some View {
         VStack(spacing: 0) {
             // Top Section: First Exercise with Remaining Exercises Below
             VStack {
-                // Top Section: Current Exercise
+                // Top Section: Current Exercisex
                 if currentExerciseIndex < exercises.count {
                     let currentExercise = exercises[currentExerciseIndex]
                     VStack {
@@ -52,7 +51,7 @@ struct ExerciseView: View {
                         .padding()                    
                 }
             }
-            if isProgessVisible {
+            if currentExerciseIndex < exercises.count {
                 VStack {
                     ZStack {
                         Circle()
@@ -132,7 +131,6 @@ struct ExerciseView: View {
     }
     private func endTraning()
     {
-        isProgessVisible = false
         saveSessionPopUp = true
         if let dataModel = deviceManager.selectedDataModel {
             dataModel.stopRecording()

@@ -1,8 +1,7 @@
 import SwiftUI
 
-// MARK: - Profile View
 struct HomeView: View {
-    let userName: String
+    let user: RepRiteAuthUser // The entire user object
     
     var body: some View {
         VStack {
@@ -14,7 +13,7 @@ struct HomeView: View {
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.blue, lineWidth: 4))
                 
-                Text(userName)
+                Text(user.userName) // Fetch userName dynamically
                     .bold()
                     .font(Font.custom("SpotLight-Regular", size: 24)) // Use the PostScript name here
                 Text("Basketball Player")
@@ -33,9 +32,8 @@ struct HomeView: View {
                     Text("10")
                         .font(Font.custom("SpotLight-Regular", size: 20)) // Use the PostScript name here
                         .bold()
-                    Text("Events Partecipated")
+                    Text("Events Participated")
                         .font(.headline)
-
                         .foregroundColor(.gray)
                 }
                 
@@ -50,7 +48,6 @@ struct HomeView: View {
             }
             .padding()
             
-          
             Spacer()
             
             // Activity Section
@@ -67,7 +64,7 @@ struct HomeView: View {
                         .clipShape(Rectangle())
                     
                     VStack(alignment: .leading) {
-                        Text("\(userName) published a post")
+                        Text("\(user.userName) published a post") // Use dynamic userName
                             .bold()
                         Text("A week ago")
                             .font(.caption)

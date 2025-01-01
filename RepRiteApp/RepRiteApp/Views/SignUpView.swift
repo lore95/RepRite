@@ -10,45 +10,53 @@ struct SignupView: View {
     @State private var phoneNumber = ""
     @State private var password = ""
     @State private var confirmPassword = ""
-    
+
     @State private var signupSuccess = false
     @State private var errorMessage = ""
     @State private var usernameErrorMessage = ""
-    
-    @FocusState private var isUsernameFieldFocused: Bool // Focus tracking
-    
+    @ObservedObject var viewModel: AuthenticationViewModel
+
+    @FocusState private var isUsernameFieldFocused: Bool  // Focus tracking
+
     var body: some View {
         ZStack {
-            // Background Color
             Color.gray.edgesIgnoringSafeArea(.all)
-            
-            // Scrollable Content
+
             ScrollView {
                 VStack(spacing: 20) {
                     Text("Signup")
-                        .font(Font.custom("SpotLight-Regular", size: 40)) // Custom Font for Repetitions
+                        .font(Font.custom("SpotLight-Regular", size: 40))
                         .foregroundColor(.white)
                         .padding(.top, 20)
-                    
-                    // Username Field with Focus Tracking
-                    TextField("Username", text: $userName)
+
+                    if viewModel.displayName.isEmpty {
+                        TextField("Email", text: $email)  // Editable field when displayName is empty
+                            .textFieldStyle()
+                    } else {
+                        TextField(
+                            "Email", text: .constant(viewModel.displayName)
+                        )  // Non-editable field
                         .textFieldStyle()
-                        .focused($isUsernameFieldFocused)
-                        .onChange(of: isUsernameFieldFocused) { isFocused in
-                            if !isFocused { // Check username only when focus is lost
-                                checkIfUsernameExists()
-                            }
-                        }
-                    
-                    // Username Error Message
-                    if !usernameErrorMessage.isEmpty {
-                        Text(usernameErrorMessage)
-                            .foregroundColor(.red)
-                            .font(Font.custom("SpotLight-Regular", size: 20)) // Custom Font for Repetitions
+                        .disabled(true)  // Disable editing
                     }
-                    
-                    // Other Input Fields
+
                     Group {
+                        TextField("Username", text: $userName)
+                            .textFieldStyle()
+                            .focused($isUsernameFieldFocused)
+                            .onChange(of: isUsernameFieldFocused) { isFocused in
+                                if !isFocused {  // Check username only when focus is lost
+                                    checkIfUsernameExists()
+                                }
+                            }
+
+                        // Username Error Message
+                        if !usernameErrorMessage.isEmpty {
+                            Text(usernameErrorMessage)
+                                .foregroundColor(.red)
+                                .font(.caption)
+                        }
+
                         TextField("First Name", text: $firstName)
                             .textFieldStyle()
                         TextField("Last Name", text: $lastName)
@@ -57,21 +65,17 @@ struct SignupView: View {
                             .textFieldStyle()
                         TextField("Age", text: $age)
                             .textFieldStyle()
-                        TextField("Email", text: $email)
-                            .textFieldStyle()
+
                         TextField("Phone Number", text: $phoneNumber)
                             .textFieldStyle()
-                        
+
                         SecureField("Password", text: $password)
                             .textFieldStyle()
                         SecureField("Confirm Password", text: $confirmPassword)
                             .textFieldStyle()
                     }
-                    
-                    // Register Button
-                    Button(action: {
-                        validateAndRegister()
-                    }) {
+
+                    Button(action: validateAndRegister) {
                         Text("Register")
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
@@ -79,33 +83,38 @@ struct SignupView: View {
                             .background(Color.black)
                             .cornerRadius(8)
                     }
-                    
-                    // Error or Success Messages
+
                     if !errorMessage.isEmpty {
                         Text(errorMessage)
                             .foregroundColor(.red)
                             .multilineTextAlignment(.center)
                             .padding()
                     }
-                    
+
                     if signupSuccess {
                         Text("Signup Successful!")
                             .foregroundColor(.green)
                             .padding()
+                        if !viewModel.displayName.isEmpty
+                        {
+                            var isActive = true
+                            NavigationLink(
+                                destination: WelcomeView(userName: userName),
+                                label: { EmptyView()}
+                            )
+                        }
                     }
                 }
                 .padding()
                 .foregroundColor(.white)
             }
         }
+
     }
-    
-    // MARK: - Validation and Registration Logic
-    
+
     private func validateAndRegister() {
-        errorMessage = "" // Reset error message
-        
-        // Check mandatory fields
+        errorMessage = ""  // Reset error message
+
         guard !userName.isEmpty else {
             errorMessage = "Username is required."
             return
@@ -118,24 +127,24 @@ struct SignupView: View {
             errorMessage = "First Name is required."
             return
         }
-        guard !email.isEmpty else {
+        if viewModel.displayName.isEmpty && email.isEmpty {
             errorMessage = "Email is required."
             return
         }
-        
-        // Check if passwords match
         guard password == confirmPassword else {
             errorMessage = "Passwords do not match."
             return
         }
-        
-        // Validate password strength
         if !isValidPassword(password) {
-            errorMessage = "Password must have:\n- At least 1 uppercase letter\n- 1 special character\n- 2 numbers"
+            errorMessage =
+                "Password must have:\n- At least 1 uppercase letter\n- 1 special character\n- 2 numbers"
             return
         }
-        
-        // Save user in the database
+        if !viewModel.displayName.isEmpty
+        {
+            email = viewModel.displayName
+        }
+            
         let success = DBController.shared.saveUser(
             userName: userName,
             firstName: firstName,
@@ -146,32 +155,33 @@ struct SignupView: View {
             phoneNumber: phoneNumber,
             password: password
         )
-        
+
         if success {
             signupSuccess = true
         } else {
-            errorMessage = "Signup failed. Username or Email might already exist."
+            errorMessage =
+                "Signup failed. Username or Email might already exist."
         }
     }
-    
+
     private func checkIfUsernameExists() {
         if DBController.shared.doesUsernameExist(userName: userName) {
-            usernameErrorMessage = "Username already exists. Please choose another."
+            usernameErrorMessage =
+                "Username already exists. Please choose another."
         } else {
             usernameErrorMessage = ""
         }
     }
-    
-    // MARK: - Password Validation Logic
-    
+
     private func isValidPassword(_ password: String) -> Bool {
-        let pattern = #"^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*\d.*\d).{8,}$"#
+        let pattern =
+            #"^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*\d.*\d).{8,}$"#
         let regex = try! NSRegularExpression(pattern: pattern)
         let range = NSRange(location: 0, length: password.utf16.count)
         return regex.firstMatch(in: password, options: [], range: range) != nil
     }
-}
 
+}
 // MARK: - TextFieldStyle Modifier
 extension View {
     func textFieldStyle() -> some View {

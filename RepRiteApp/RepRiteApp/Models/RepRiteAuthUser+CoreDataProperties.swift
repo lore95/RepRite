@@ -24,6 +24,7 @@ extension RepRiteAuthUser {
     @NSManaged public var email: String
     @NSManaged public var phoneNumber: String?
     @NSManaged public var sex: String?
+    @NSManaged public var googleId: String?
 
 
 }

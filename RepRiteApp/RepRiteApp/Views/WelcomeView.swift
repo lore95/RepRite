@@ -3,11 +3,11 @@ import SwiftUI
 struct WelcomeView: View {
     let userName: String
     @ObservedObject private var deviceManager = DeviceManager.shared
-
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+    
     var body: some View {
         TabView {
-            HomeView(userName: userName)
-
+            HomeView(user: DBController.shared.getUserByEmail(email: viewModel.displayName) ?? RepRiteAuthUser.defaultUser)
                 .tabItem {
                     Label(
                         "Home",
