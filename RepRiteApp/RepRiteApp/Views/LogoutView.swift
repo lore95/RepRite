@@ -5,7 +5,8 @@ import SwiftUI
 // MARK: - Logout View
 struct LogoutView: View {
     @Environment(\.presentationMode) var presentationMode
-    
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+
     var body: some View {
         VStack {
             Text("Logout")
@@ -13,7 +14,9 @@ struct LogoutView: View {
                 .padding()
             
             Button(action: {
+                viewModel.signOut()
                 presentationMode.wrappedValue.dismiss()
+                
             }) {
                 Text("Confirm Logout")
                     .padding()

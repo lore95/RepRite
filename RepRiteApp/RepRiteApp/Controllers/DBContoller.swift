@@ -116,5 +116,24 @@ class DBController {
             return nil // Return nil in case of an error
         }
     }
+    func deleteUserByEmail(email: String) -> Bool {
+        let fetchRequest: NSFetchRequest<RepRiteAuthUser> = RepRiteAuthUser.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "email == %@", email)
 
+        do {
+            let users = try context.fetch(fetchRequest)
+            if let user = users.first {
+                context.delete(user) // Delete the user object
+                try context.save() // Save the context to persist changes
+                print("User with email \(email) deleted successfully.")
+                return true
+            } else {
+                print("No user found with the specified email: \(email).")
+                return false
+            }
+        } catch {
+            print("Failed to delete user: \(error)")
+            return false
+        }
+    }
 }

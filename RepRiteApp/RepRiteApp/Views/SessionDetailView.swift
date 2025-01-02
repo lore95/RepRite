@@ -1,3 +1,11 @@
+//
+//  SessionDetailView.swift
+//  RepRiteApp
+//
+//  Created by lorewnzo  on 2025-01-02.
+//
+
+
 import SwiftUI
 import Charts
 
@@ -60,6 +68,8 @@ struct SessionDetailView: View {
             let data = try Data(contentsOf: file)
             let decoder = JSONDecoder()
             session = try decoder.decode(ExerciseSession.self, from: data)
+            print(session?.angles)
+
         } catch {
             loadingError = error.localizedDescription
         }

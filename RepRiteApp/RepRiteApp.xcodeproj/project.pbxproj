@@ -33,6 +33,9 @@
 		C10AC5AA2D25557E00756521 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C10AC5A92D25557E00756521 /* FirebaseStorage */; };
 		C10AC5AC2D25557E00756521 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = C10AC5AB2D25557E00756521 /* FirebaseStorageCombine-Community */; };
 		C10AC5AE2D25557E00756521 /* FirebaseVertexAI in Frameworks */ = {isa = PBXBuildFile; productRef = C10AC5AD2D25557E00756521 /* FirebaseVertexAI */; };
+		C10AC6942D2704EB00756521 /* PolarBleSdk in Frameworks */ = {isa = PBXBuildFile; productRef = C10AC6932D2704EB00756521 /* PolarBleSdk */; };
+		C10AC6B62D27084C00756521 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = C10AC6B52D27084C00756521 /* Zip */; };
+		C10AC6B92D2709C200756521 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = C10AC6B82D2709C200756521 /* Alamofire */; };
 		C17D45C42D15DE9900DB4CE3 /* RepRiteAuthUser+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17D45C32D15DE9900DB4CE3 /* RepRiteAuthUser+CoreDataProperties.swift */; };
 		C17D45C52D15DE9900DB4CE3 /* RepRiteAuthUser+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17D45C22D15DE9900DB4CE3 /* RepRiteAuthUser+CoreDataClass.swift */; };
 /* End PBXBuildFile section */
@@ -53,6 +56,19 @@
 			remoteInfo = RepRiteApp;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C10AC6BD2D2709C200756521 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		C17D45852D15DDC400DB4CE3 /* RepRiteApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RepRiteApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,6 +108,7 @@
 				C10AC5882D25557E00756521 /* FirebaseAppDistribution-Beta in Frameworks */,
 				C10AC59C2D25557E00756521 /* FirebaseFunctionsCombine-Community in Frameworks */,
 				C10AC58C2D25557E00756521 /* FirebaseAuthCombine-Community in Frameworks */,
+				C10AC6942D2704EB00756521 /* PolarBleSdk in Frameworks */,
 				C10AC57C2D25557600756521 /* GoogleSignIn in Frameworks */,
 				C10AC5AA2D25557E00756521 /* FirebaseStorage in Frameworks */,
 				C10AC5982D25557E00756521 /* FirebaseFirestoreCombine-Community in Frameworks */,
@@ -101,12 +118,14 @@
 				C10AC5902D25557E00756521 /* FirebaseCrashlytics in Frameworks */,
 				C10AC5AE2D25557E00756521 /* FirebaseVertexAI in Frameworks */,
 				C10AC5A02D25557E00756521 /* FirebaseInstallations in Frameworks */,
+				C10AC6B62D27084C00756521 /* Zip in Frameworks */,
 				C10AC5922D25557E00756521 /* FirebaseDatabase in Frameworks */,
 				C10AC5802D25557E00756521 /* FirebaseAnalytics in Frameworks */,
 				C10AC58E2D25557E00756521 /* FirebaseCore in Frameworks */,
 				C10AC5A22D25557E00756521 /* FirebaseMessaging in Frameworks */,
 				C10AC59E2D25557E00756521 /* FirebaseInAppMessaging-Beta in Frameworks */,
 				C10AC5862D25557E00756521 /* FirebaseAppCheck in Frameworks */,
+				C10AC6B92D2709C200756521 /* Alamofire in Frameworks */,
 				C10AC59A2D25557E00756521 /* FirebaseFunctions in Frameworks */,
 				C10AC5A82D25557E00756521 /* FirebaseRemoteConfig in Frameworks */,
 				C10AC5822D25557E00756521 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
@@ -172,6 +191,7 @@
 				C17D45812D15DDC400DB4CE3 /* Sources */,
 				C17D45822D15DDC400DB4CE3 /* Frameworks */,
 				C17D45832D15DDC400DB4CE3 /* Resources */,
+				C10AC6BD2D2709C200756521 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -208,6 +228,9 @@
 				C10AC5A92D25557E00756521 /* FirebaseStorage */,
 				C10AC5AB2D25557E00756521 /* FirebaseStorageCombine-Community */,
 				C10AC5AD2D25557E00756521 /* FirebaseVertexAI */,
+				C10AC6932D2704EB00756521 /* PolarBleSdk */,
+				C10AC6B52D27084C00756521 /* Zip */,
+				C10AC6B82D2709C200756521 /* Alamofire */,
 			);
 			productName = RepRiteApp;
 			productReference = C17D45852D15DDC400DB4CE3 /* RepRiteApp.app */;
@@ -291,6 +314,9 @@
 			packageReferences = (
 				C10AC4DB2D21EA2800756521 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				C10AC5462D25538C00756521 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				C10AC6902D2703B200756521 /* XCRemoteSwiftPackageReference "polar-ble-sdk" */,
+				C10AC6B42D27083D00756521 /* XCRemoteSwiftPackageReference "Zip" */,
+				C10AC6B72D2709B600756521 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C17D45862D15DDC400DB4CE3 /* Products */;
@@ -420,6 +446,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = NSBluetoothAlwaysUsageDescription;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -477,6 +504,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = NSBluetoothAlwaysUsageDescription;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -679,6 +707,30 @@
 				minimumVersion = 8.0.0;
 			};
 		};
+		C10AC6902D2703B200756521 /* XCRemoteSwiftPackageReference "polar-ble-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/polarofficial/polar-ble-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.0;
+			};
+		};
+		C10AC6B42D27083D00756521 /* XCRemoteSwiftPackageReference "Zip" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/Zip.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.2;
+			};
+		};
+		C10AC6B72D2709B600756521 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -811,6 +863,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C10AC4DB2D21EA2800756521 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseVertexAI;
+		};
+		C10AC6932D2704EB00756521 /* PolarBleSdk */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C10AC6902D2703B200756521 /* XCRemoteSwiftPackageReference "polar-ble-sdk" */;
+			productName = PolarBleSdk;
+		};
+		C10AC6B52D27084C00756521 /* Zip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C10AC6B42D27083D00756521 /* XCRemoteSwiftPackageReference "Zip" */;
+			productName = Zip;
+		};
+		C10AC6B82D2709C200756521 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C10AC6B72D2709B600756521 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

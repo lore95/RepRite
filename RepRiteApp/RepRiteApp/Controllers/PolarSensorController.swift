@@ -8,7 +8,7 @@ import CoreBluetooth
 /// PolarBleSdkManager demonstrates how to user PolarBleSDK API
 class PolarBleSdkManager : ObservableObject {
     // NOTICE this example utilises all available features
-    private var api = PolarBleApiDefaultImpl.polarImplementation(DispatchQueue.main,
+     private var api = PolarBleApiDefaultImpl.polarImplementation(DispatchQueue.main,
                                                                  features: [PolarBleSdkFeature.feature_hr,
                                                                             PolarBleSdkFeature.feature_polar_sdk_mode,
                                                                             PolarBleSdkFeature.feature_battery_info,

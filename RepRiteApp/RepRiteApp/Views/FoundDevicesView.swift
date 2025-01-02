@@ -2,6 +2,7 @@ import SwiftUI
 import CoreBluetooth
 struct FoundDevicesView: View {
     @ObservedObject var deviceManager = DeviceManager.shared
+    
     var onDeviceSelected: () -> Void
 
     @State private var showDataView = false

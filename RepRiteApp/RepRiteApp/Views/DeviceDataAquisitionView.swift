@@ -60,7 +60,7 @@ struct DataAcquisitionView: View {
     private func startPrintingData() {
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             if dataModel.isRecording {
-                print("Current Data Points: \(dataModel.angleDataPoints)")
+                //print("Current Data Points: \(dataModel.angleDataPoints)")
             } else {
                 timer.invalidate()
             }

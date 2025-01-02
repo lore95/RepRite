@@ -3,21 +3,24 @@ import SwiftUI
 
 struct ExerciseView: View {
     @ObservedObject var deviceManager = DeviceManager.shared
-
+    @EnvironmentObject var repositoryController: RepositoryController
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @Environment(\.dismiss) private var dismiss
+    @State private var lastAngleValue: Double = 0.0
     var color: Color = Color.green
     @State private var cancellable: AnyCancellable? = nil
     @State private var progress: Double = 0.0
     @State private var repetitionsLeft: Int = 0
     @State private var currentExerciseIndex: Int = 0
     @State private var isAboveThreshold = false
-    @State private var saveSessionPopUp = false
-    
-    let exercises: [(typeOfExercise: String, numberOfRepetitions: Int)]
+    @State private var saveSessionPopUp = false  // Controls the confirmation dialog
+    @State private var currentExerciseType = ""
+    @Binding var exercises: [(typeOfExercise: String, numberOfRepetitions: Int)]
+
     var body: some View {
         VStack(spacing: 0) {
-            // Top Section: First Exercise with Remaining Exercises Below
+            // Top Section: Exercise Info
             VStack {
-                // Top Section: Current Exercisex
                 if currentExerciseIndex < exercises.count {
                     let currentExercise = exercises[currentExerciseIndex]
                     VStack {
@@ -27,7 +30,6 @@ struct ExerciseView: View {
                             .padding(.vertical)
                             .padding(.horizontal)
 
-                        // Remaining Exercises
                         VStack {
                             ForEach(
                                 exercises.dropFirst(currentExerciseIndex + 1),
@@ -48,9 +50,11 @@ struct ExerciseView: View {
                     Text("All exercises completed!")
                         .font(Font.custom("SpotLight-Regular", size: 30))
                         .foregroundColor(.green)
-                        .padding()                    
+                        .padding()
                 }
             }
+
+            // Progress Circle and Remaining Reps
             if currentExerciseIndex < exercises.count {
                 VStack {
                     ZStack {
@@ -70,36 +74,50 @@ struct ExerciseView: View {
                             .animation(.easeInOut(duration: 0.1))
                     }.frame(width: 160.0, height: 160.0)
                 }
-                // Middle Section: Current Repetitions
-                if currentExerciseIndex < exercises.count {
-                    Text("\(repetitionsLeft)")
-                        .font(Font.custom("SpotLight-Regular", size: 150))
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .multilineTextAlignment(.center)
-                        .padding()
+                Text("\(repetitionsLeft)")
+                    .font(Font.custom("SpotLight-Regular", size: 150))
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .multilineTextAlignment(.center)
+                    .padding()
+
+                // Buttons
+                HStack(spacing: 20) {
+                    startButton
+                    stopButton
                 }
+                .padding()
+                .background(Color.black.shadow(radius: 5))
             }
-            // Bottom Section: Start and Stop Buttons
-            HStack(spacing: 20) {
-                startButton
-                stopButton
-            }
-            .padding()
-            .background(Color.black.shadow(radius: 5))
+
         }
         .navigationTitle("Exercise Details")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             setupInitialState()
         }
+        .alert(isPresented: $saveSessionPopUp) {
+            Alert(
+                title: Text("Save Session"),
+                message: Text("Would you like to save this session?"),
+                primaryButton: .default(Text("Save")) {
+                    saveSession()
+                },
+                secondaryButton: .cancel(Text("Don't Save")) {
+                    discardSession()
+                }
+            )
+        }
     }
+
     // MARK: - Setup
     private func setupInitialState() {
         if let firstExercise = exercises.first {
             repetitionsLeft = firstExercise.numberOfRepetitions
+            currentExerciseType = exercises[currentExerciseIndex].typeOfExercise
         }
     }
+
     // MARK: - Update Progress and Repetitions
     private func updateProgress(_ newProgress: Double) {
         progress = newProgress
@@ -122,21 +140,32 @@ struct ExerciseView: View {
     private func moveToNextExercise() {
         currentExerciseIndex += 1
         if currentExerciseIndex < exercises.count {
+            currentExerciseType = exercises[currentExerciseIndex].typeOfExercise
             repetitionsLeft =
                 exercises[currentExerciseIndex].numberOfRepetitions
         } else {
-            // All exercises completed
-            repetitionsLeft = 0
+            endTraining()
         }
     }
-    private func endTraning()
-    {
-        saveSessionPopUp = true
+
+    // MARK: - End Training
+    private func endTraining() {
+        saveSessionPopUp = true  // Show the confirmation popup
         if let dataModel = deviceManager.selectedDataModel {
             dataModel.stopRecording()
             dataModel.updateIsRecording()
         }
     }
+
+    private func discardSession() {
+        print("Session discarded.")
+        if let dataModel = deviceManager.selectedDataModel {
+            dataModel.resetData()
+        }
+        exercises = []
+        dismiss()  // Navigate back to FoundDevicesView
+    }
+
     // MARK: - Start Button
     private var startButton: some View {
         Button(action: {
@@ -144,8 +173,14 @@ struct ExerciseView: View {
                 dataModel.startRecording()
                 dataModel.updateIsRecording()
                 cancellable = dataModel.$angleDataPoints
-                    .map { Double($0.last ?? 0.0) }  // Ensure the result is Double
-                    .map { min($0 / 180.0, 1.0) }  // Normalize to [0, 1]
+                    .map { rawValue -> Double in
+                        // Normalize based on the current exercise type
+                        let normalizedValue = normalizeValue(
+                            rawValue: Double(rawValue.last ?? 0.0),
+                            exerciseType: currentExerciseType
+                        )
+                        return normalizedValue
+                    }
                     .sink { newProgress in
                         updateProgress(newProgress)
                     }
@@ -153,7 +188,7 @@ struct ExerciseView: View {
         }) {
             Text("Start")
                 .foregroundColor(.green)
-                .font(Font.custom("SpotLight-Regular", size: 40))  // Custom Font for Repetitions
+                .font(Font.custom("SpotLight-Regular", size: 40))
                 .padding()
                 .frame(maxWidth: .infinity)
                 .background(Color.black)
@@ -164,19 +199,71 @@ struct ExerciseView: View {
     // MARK: - Stop Button
     private var stopButton: some View {
         Button(action: {
-            if let dataModel = deviceManager.selectedDataModel {
-                dataModel.stopRecording()
-                dataModel.updateIsRecording()
-            }
+            endTraining()  // Show the confirmation popup
         }) {
             Text("Give Up")
                 .foregroundColor(.red)
-                .font(Font.custom("SpotLight-Regular", size: 40))  // Custom Font for Repetitions
+                .font(Font.custom("SpotLight-Regular", size: 40))
                 .padding()
                 .frame(maxWidth: .infinity)
                 .background(Color.black)
                 .cornerRadius(10)
         }
     }
-   
+    private func saveSession() {
+        // Gather data for the session
+        let completedExercises = exercises.prefix(currentExerciseIndex + 1).map
+        {
+            ExerciseData(
+                typeOfExercise: $0.typeOfExercise,
+                numberOfRepetitions: $0.numberOfRepetitions
+            )
+        }
+        let angleData = deviceManager.selectedDataModel?.angleDataPoints ?? []
+        //print(angleData)
+        // Create the session
+        let session = ExerciseSession(
+            date: Date(),
+            exercises: Array(completedExercises),
+            angles: angleData.map { Double($0) }
+        )
+
+        // Save the session
+        repositoryController.saveSession(
+            session, forUser: viewModel.displayName)
+        print("Session saved successfully!")
+        if let dataModel = deviceManager.selectedDataModel {
+            dataModel.resetData()
+        }
+        exercises = []
+        dismiss()  // Navigate back to FoundDevicesView
+    }
+    func normalizeValue(rawValue: Double, exerciseType: String) -> Double {
+        // Define the range for each exercise
+        print(rawValue)
+        let range: (min: Double, max: Double) = {
+            switch exerciseType {
+            case "Pullups":
+                return (40.0, 120.0)
+            case "Pushups":
+                return (20.0, 70.0)
+            case "Snatches":
+                return (0.0, 180.0)
+            default:
+                return (0.0, 180.0) // Default range if type is unknown
+            }
+        }()
+        
+        // Calculate normalized value
+        let normalized: Double
+        
+        if abs(rawValue - lastAngleValue) > 20 { // Check if the difference exceeds the threshold
+            normalized = max(0, min(1, (lastAngleValue - range.min) / (range.max - range.min)))
+        } else {
+            normalized = max(0, min(1, (rawValue - range.min) / (range.max - range.min)))
+            lastAngleValue = rawValue
+        }
+        
+        return normalized
+    }
 }

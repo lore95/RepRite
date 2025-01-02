@@ -16,11 +16,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct RepRiteApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var viewModel = AuthenticationViewModel() // Initialize ViewModel
-    
+    @StateObject private var repositoryController = RepositoryController(userIdentifier: "defaultUser")
+
     var body: some Scene {
         WindowGroup {
             LoginView()
                 .environmentObject(viewModel) // Provide the environment object
+                .environmentObject(repositoryController) // Provide RepositoryController
         }
     }
 }

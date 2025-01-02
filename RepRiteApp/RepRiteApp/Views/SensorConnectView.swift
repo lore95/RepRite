@@ -34,7 +34,7 @@ struct SensorConnectView: View {
             if !exercises.isEmpty {
                 exerciseListView
                 NavigationLink(
-                    destination: ExerciseView(exercises: exercises),
+                    destination: ExerciseView(exercises: $exercises),
                     isActive: $navigateToExerciseView
                 ) {
                     EmptyView()
@@ -130,7 +130,7 @@ struct SensorConnectView: View {
     private var exerciseListView: some View {
         VStack(alignment: .leading) {
             Text("Exercises Added:")
-                .font(Font.custom("SpotLight-Regular", size: 10)) // Custom Font for Repetitions
+                .font(Font.custom("SpotLight-Regular", size: 20)) // Custom Font for Repetitions
             ForEach(exercises, id: \.typeOfExercise) { exercise in
                 HStack {
                     Text("\(exercise.typeOfExercise):")

@@ -40,32 +40,34 @@ class DataManipulationController {
         let angleDeg = angleRad * 180 / .pi
         return angleDeg >= 0 ? angleDeg : angleDeg + 360  // Ensure 0-360 degrees
     }
-    // MARK: - Calculate 3D Angle As instructed in lab
-    func calculateVaried3dAngle(x: Float, y: Float, z: Float) -> (
-        tiltAngle: Float, roll: Float, pitch: Float
-    ) {
+    func calculateVaried3dAngle(x: Float, y: Float, z: Float) -> (tiltAngle: Float, roll: Float, pitch: Float) {
         let magnitude = sqrt(x * x + y * y + z * z)
-          guard magnitude != 0 else { return (0, 0, 0) }
-          
-          let normX = x / magnitude
-          let normY = y / magnitude
-          let normZ = z / magnitude
-
-          // Adjust tilt angle: Map Z to desired range (0-180°)
-          let tiltAngle = acos(normZ) * 180 / .pi
-
-          // Roll: Rotation around X-axis
-          let roll = atan2(normY, normZ) * 180 / .pi
-
-          // Pitch: Rotation around Y-axis
-          let pitch = atan2(-normX, sqrt(normY * normY + normZ * normZ)) * 180 / .pi
-
-          // Print for debugging
-          //print("Normalized Z: \(normZ), Tilt Angle: \(tiltAngle), Roll: \(roll), Pitch: \(pitch)")
+        guard magnitude != 0 else { return (0, 0, 0) }
         
-          return (tiltAngle, roll, pitch)
+        let normX = x / magnitude
+        let normY = y / magnitude
+        let normZ = z / magnitude
 
+        // Adjust tilt angle: Map Z to desired range (0-180°)
+        let tiltAngle = acos(normZ) * 180 / .pi
+
+        // Roll: Rotation around X-axis (0 to 360°)
+        let roll = atan2(normY, normZ) * 180 / .pi
+        let roll360 = roll >= 0 ? roll : roll + 360 // Convert negative angles to 0-360
+
+        // Pitch: Rotation around Y-axis (0 to 360°)
+        let pitch = atan2(-normX, sqrt(normY * normY + normZ * normZ)) * 180 / .pi
+        let pitch360 = pitch >= 0 ? pitch : pitch + 360 // Convert negative angles to 0-360
+        print(tiltAngle)
+        return (tiltAngle, roll360, pitch360)
     }
+    
+    
+    func calculateSingle3DAngle(x: Float, y: Float, z: Float) -> Float {
+            let azimuth = atan2(z, y) * 180 / .pi
+            return azimuth >= 0 ? azimuth : azimuth + 360
+        }
+    
     // MARK: - Calculate 3D Angle (Tilt Relative to Z-Axis)
     func calculateAngleToXis(x: Float, y: Float, z: Float) -> (
         zAngle: Float, roll: Float, pitch: Float

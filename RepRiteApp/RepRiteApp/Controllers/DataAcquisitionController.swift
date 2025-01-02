@@ -1,6 +1,6 @@
 import CoreBluetooth
-import Foundation
 import CoreData
+import Foundation
 
 class DataAquisitionModel: NSObject, ObservableObject, CBPeripheralDelegate {
     // MARK: - Properties
@@ -13,9 +13,8 @@ class DataAquisitionModel: NSObject, ObservableObject, CBPeripheralDelegate {
     @Published var angleDataPoints: [Float] = []
     @Published var isToSave = false
 
-
     @Published var isRecording = false
-    private var csvRows: [CSVModel] = []             // Array to hold CSV rows
+    private var csvRows: [CSVModel] = []  // Array to hold CSV rows
 
     let dataProcessor = DataManipulationController()
 
@@ -32,7 +31,7 @@ class DataAquisitionModel: NSObject, ObservableObject, CBPeripheralDelegate {
 
     // MARK: - Configuration
     func configurePeripheral(_ peripheral: CBPeripheral) {
-        print("Configuring peripheral: \(peripheral.name ?? "Unknown Device")")
+        //print("Configuring peripheral: \(peripheral.name ?? "Unknown Device")")
         if connectedPeripheral == nil {
             self.connectedPeripheral = peripheral
             self.connectedPeripheral?.delegate = self
@@ -43,7 +42,6 @@ class DataAquisitionModel: NSObject, ObservableObject, CBPeripheralDelegate {
     // MARK: - Start and Stop Recording
     func startRecording() {
         guard let peripheral = connectedPeripheral else { return }
-        print("Starting data recording...")
 
         // Enable notifications for GATT Data characteristic
         if let services = peripheral.services {
@@ -51,7 +49,7 @@ class DataAquisitionModel: NSObject, ObservableObject, CBPeripheralDelegate {
                 for characteristic in service.characteristics ?? [] {
                     if characteristic.uuid == GATTData {
                         peripheral.setNotifyValue(true, for: characteristic)
-                        print("Enabled notifications for GATT Data")
+                        //print("Enabled notifications for GATT Data")
                     }
                 }
             }
@@ -76,12 +74,9 @@ class DataAquisitionModel: NSObject, ObservableObject, CBPeripheralDelegate {
                 }
             }
         }
-        if isToSave
-        {
-            generateCSVData()
-            saveJSONToFile()
-        }
-        isToSave = false
+    }
+
+    func resetData() {
         // Clear data points or stop any timers if needed
         DispatchQueue.main.async {
             self.XrawDataPoints.removeAll()
@@ -93,6 +88,7 @@ class DataAquisitionModel: NSObject, ObservableObject, CBPeripheralDelegate {
             self.angleDataPoints.removeAll()
         }
     }
+    
     // MARK: - Command Handling
     private func sendCommand(to peripheral: CBPeripheral, command: String) {
         guard let services = peripheral.services else { return }
@@ -170,7 +166,6 @@ class DataAquisitionModel: NSObject, ObservableObject, CBPeripheralDelegate {
         }
     }
 
-
     func peripheral(
         _ peripheral: CBPeripheral,
         didUpdateValueFor characteristic: CBCharacteristic, error: Error?
@@ -193,7 +188,7 @@ class DataAquisitionModel: NSObject, ObservableObject, CBPeripheralDelegate {
                 let n: UInt8 = i
                 byteArray.append(n)
             }
-            
+
             let response = byteArray[0]
             let reference = byteArray[1]
 
@@ -205,7 +200,6 @@ class DataAquisitionModel: NSObject, ObservableObject, CBPeripheralDelegate {
                 let data = NSData(bytes: array, length: 4)
                 data.getBytes(&time, length: 4)
 
-                
                 let Xacc = bytesToFloat(bytes: [
                     byteArray[9], byteArray[8], byteArray[7], byteArray[6],
                 ])
@@ -215,9 +209,13 @@ class DataAquisitionModel: NSObject, ObservableObject, CBPeripheralDelegate {
                 let Zacc = bytesToFloat(bytes: [
                     byteArray[17], byteArray[16], byteArray[15], byteArray[14],
                 ])
-                let filteredData = dataProcessor.filterIMUData(x: Xacc, y: Yacc, z: Zacc)
-                let angle = dataProcessor.calculate2DAngle(x: filteredData.filteredX, y: filteredData.filteredY)
-                let angle3d = dataProcessor.calculateVaried3dAngle(x: filteredData.filteredX, y: filteredData.filteredY, z: filteredData.filteredZ)
+                let filteredData = dataProcessor.filterIMUData(
+                    x: Xacc, y: Yacc, z: Zacc)
+                let angle = dataProcessor.calculate2DAngle(
+                    x: filteredData.filteredX, y: filteredData.filteredY)
+                let angle3d = dataProcessor.calculateSingle3DAngle(
+                    x: filteredData.filteredX, y: filteredData.filteredY,
+                    z: filteredData.filteredZ)
 
                 //print("X:\(Xacc) Y:\(Yacc)  Z:\(Zacc)")
                 //print("Filtered X:\(filteredData.filteredX) Y:\(filteredData.filteredY)  Z:\(filteredData.filteredZ)")
@@ -225,20 +223,19 @@ class DataAquisitionModel: NSObject, ObservableObject, CBPeripheralDelegate {
                     ? angle3d.tiltAngle + 90
                     : 180 - ((angle3d.tiltAngle + 90) - 180);
                 print("3d angle: " + String(angleToAppend))*/
-                
+
                 //print("z value : " + String(filteredData.filteredZ))
                 //print("3d angle: " + String(angle3d.zAngle))
                 //print("roll : " + String(angle3d.roll))
                 //print("pitch : " + String(angle3d.pitch))
-                if isRecording
-                {
+                if isRecording {
                     XrawDataPoints.append(Xacc)
                     YrawDataPoints.append(Yacc)
                     ZrawDataPoints.append(Zacc)
                     XfilteredDataPoints.append(filteredData.filteredX)
                     YfilteredDataPoints.append(filteredData.filteredY)
                     ZfilteredDataPoints.append(filteredData.filteredZ)
-                    angleDataPoints.append(angle3d.tiltAngle)
+                    angleDataPoints.append(angle3d)
                 }
             }
 
@@ -326,38 +323,38 @@ class DataAquisitionModel: NSObject, ObservableObject, CBPeripheralDelegate {
         let bitPattern = UInt32(bigEndian: bigEndianValue)
         return Float(bitPattern: bitPattern)
     }
-    
-    public func updateIsRecording(){
+
+    public func updateIsRecording() {
         isRecording.toggle()
     }
-    
+
     private func generateCSVData() {
-           csvRows.removeAll() // Clear any previous data
+        csvRows.removeAll()  // Clear any previous data
 
-           let count = XrawDataPoints.count
+        let count = XrawDataPoints.count
 
-           for i in 0..<count {
-               let rawX = String(format: "%.3f", XrawDataPoints[i])
-               let rawY = String(format: "%.3f", YrawDataPoints[i])
-               let rawZ = String(format: "%.3f", ZrawDataPoints[i])
-               let filteredX = String(format: "%.3f", XfilteredDataPoints[i])
-               let filteredY = String(format: "%.3f", YfilteredDataPoints[i])
-               let filteredZ = String(format: "%.3f", ZfilteredDataPoints[i])
-               let angle = String(format: "%.3f", angleDataPoints[i])
+        for i in 0..<count {
+            let rawX = String(format: "%.3f", XrawDataPoints[i])
+            let rawY = String(format: "%.3f", YrawDataPoints[i])
+            let rawZ = String(format: "%.3f", ZrawDataPoints[i])
+            let filteredX = String(format: "%.3f", XfilteredDataPoints[i])
+            let filteredY = String(format: "%.3f", YfilteredDataPoints[i])
+            let filteredZ = String(format: "%.3f", ZfilteredDataPoints[i])
+            let angle = String(format: "%.3f", angleDataPoints[i])
 
-               let csvRow = CSVModel(
-                   accX: rawX,
-                   accY: rawY,  // Replace with real data if available
-                   accZ: rawZ,  // Replace with real data if available
-                   filteredAccX: filteredX,
-                   filteredAccY: filteredY, // Replace with real data if available
-                   filteredAccZ: filteredZ, // Replace with real data if available
-                   computedAngle: angle
-               )
-               csvRows.append(csvRow)
-           }
-           print("CSV Data Prepared: \(csvRows.count) rows")
-       }
+            let csvRow = CSVModel(
+                accX: rawX,
+                accY: rawY,  // Replace with real data if available
+                accZ: rawZ,  // Replace with real data if available
+                filteredAccX: filteredX,
+                filteredAccY: filteredY,  // Replace with real data if available
+                filteredAccZ: filteredZ,  // Replace with real data if available
+                computedAngle: angle
+            )
+            csvRows.append(csvRow)
+        }
+        print("CSV Data Prepared: \(csvRows.count) rows")
+    }
 
     private func saveJSONToFile() {
         let fileName = generateFileName()
@@ -365,7 +362,7 @@ class DataAquisitionModel: NSObject, ObservableObject, CBPeripheralDelegate {
 
         // Encode `csvRows` to JSON
         let encoder = JSONEncoder()
-        encoder.outputFormatting = .prettyPrinted // For readable JSON
+        encoder.outputFormatting = .prettyPrinted  // For readable JSON
         do {
             let jsonData = try encoder.encode(csvRows)
             try jsonData.write(to: fileURL, options: .atomic)
@@ -377,11 +374,13 @@ class DataAquisitionModel: NSObject, ObservableObject, CBPeripheralDelegate {
 
     /// Get the app's Document Directory path
     private func getDocumentsDirectory() -> URL {
-        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return FileManager.default.urls(
+            for: .documentDirectory, in: .userDomainMask
+        ).first!
     }
-    
+
     private func loadJSONFromFile() {
-        let fileName = "imu_data.json" // File name
+        let fileName = "imu_data.json"  // File name
         let fileURL = getDocumentsDirectory().appendingPathComponent(fileName)
 
         let decoder = JSONDecoder()
@@ -393,7 +392,7 @@ class DataAquisitionModel: NSObject, ObservableObject, CBPeripheralDelegate {
             print("Error loading JSON file: \(error.localizedDescription)")
         }
     }
-    
+
     /// Generates a unique file name using the current date and time
     private func generateFileName() -> String {
         let formatter = DateFormatter()

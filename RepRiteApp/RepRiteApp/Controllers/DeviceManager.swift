@@ -73,8 +73,7 @@ class DeviceManager: NSObject, ObservableObject, CBCentralManagerDelegate,
             as? String
         {
             // Check if the name starts with "movesense" ignoring case
-            if deviceName.lowercased().hasPrefix("movesense") {
-                if !discoveredDevices.contains(peripheral) {
+            if deviceName.lowercased().hasPrefix("movesense") || deviceName.lowercased().hasPrefix("polar") {                if !discoveredDevices.contains(peripheral) {
                     discoveredDevices.append(peripheral)
                     objectWillChange.send()
                 }

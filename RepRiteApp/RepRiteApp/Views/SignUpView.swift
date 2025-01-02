@@ -10,7 +10,7 @@ struct SignupView: View {
     @State private var phoneNumber = ""
     @State private var password = ""
     @State private var confirmPassword = ""
-
+    @State private var navigateToWelcome = false  // State variable to control navigation
     @State private var signupSuccess = false
     @State private var errorMessage = ""
     @State private var usernameErrorMessage = ""
@@ -95,18 +95,13 @@ struct SignupView: View {
                         Text("Signup Successful!")
                             .foregroundColor(.green)
                             .padding()
-                        if !viewModel.displayName.isEmpty
-                        {
-                            var isActive = true
-                            NavigationLink(
-                                destination: WelcomeView(userName: userName),
-                                label: { EmptyView()}
-                            )
-                        }
                     }
                 }
                 .padding()
                 .foregroundColor(.white)
+                .navigationDestination(isPresented: $navigateToWelcome) {
+                                WelcomeView(userName: userName)
+                            }
             }
         }
 
@@ -140,11 +135,18 @@ struct SignupView: View {
                 "Password must have:\n- At least 1 uppercase letter\n- 1 special character\n- 2 numbers"
             return
         }
-        if !viewModel.displayName.isEmpty
-        {
+        if !viewModel.displayName.isEmpty {
             email = viewModel.displayName
         }
-            
+        print( "userName: " + userName,
+               "firstName: " + firstName,
+               "lastName: " + lastName,
+               "sex: " + sex,
+               "age: " + age,
+               "email:" + email,
+               "phoneNumber: " + phoneNumber,
+               "password: " + password)
+
         let success = DBController.shared.saveUser(
             userName: userName,
             firstName: firstName,
@@ -158,6 +160,10 @@ struct SignupView: View {
 
         if success {
             signupSuccess = true
+            if(!viewModel.displayName.isEmpty)
+            {
+                navigateToWelcome = true
+            }
         } else {
             errorMessage =
                 "Signup failed. Username or Email might already exist."
