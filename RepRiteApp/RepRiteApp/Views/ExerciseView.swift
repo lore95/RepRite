@@ -246,9 +246,9 @@ struct ExerciseView: View {
             case "Pullups":
                 return (40.0, 120.0)
             case "Pushups":
-                return (20.0, 70.0)
+                return (190.0, 250.0)
             case "Snatches":
-                return (0.0, 180.0)
+                return (160.0, 20.0)
             default:
                 return (0.0, 180.0) // Default range if type is unknown
             }
@@ -257,7 +257,7 @@ struct ExerciseView: View {
         // Calculate normalized value
         let normalized: Double
         
-        if abs(rawValue - lastAngleValue) > 20 { // Check if the difference exceeds the threshold
+        if abs(rawValue - lastAngleValue) > 200 { // Check if the difference exceeds the threshold
             normalized = max(0, min(1, (lastAngleValue - range.min) / (range.max - range.min)))
         } else {
             normalized = max(0, min(1, (rawValue - range.min) / (range.max - range.min)))
