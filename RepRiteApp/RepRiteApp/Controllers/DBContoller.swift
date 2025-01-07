@@ -136,4 +136,34 @@ class DBController {
             return false
         }
     }
+    func updateUserDetails(
+        email: String,
+        userName: String,
+        firstName: String,
+        lastName: String?,
+        age: Int,
+        phoneNumber: String?,
+        sex: String?
+    ) -> Bool {
+        guard let user = getUserByEmail(email: email) else {
+            print("User not found.")
+            return false
+        }
+
+        user.userName = userName
+        user.firstName = firstName
+        user.lastName = lastName
+        user.age = Int16(age)
+        user.phoneNumber = phoneNumber
+        user.sex = sex
+
+        do {
+            try context.save()
+            print("User details updated successfully.")
+            return true
+        } catch {
+            print("Failed to update user details: \(error)")
+            return false
+        }
+    } 
 }

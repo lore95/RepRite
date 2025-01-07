@@ -10,6 +10,8 @@ import Foundation
 
 class RepositoryController: ObservableObject {
     @Published var files: [URL] = [] // List of available JSON files
+    @Published var locations: [Location] = []
+
     private let userIdentifier: String
 
     init(userIdentifier: String) {
@@ -61,4 +63,19 @@ class RepositoryController: ObservableObject {
     private func getDocumentsDirectory() -> URL {
         return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     }
+    
+    func loadLocationsFromLocalStorage() {
+            guard let url = Bundle.main.url(forResource: "events", withExtension: "json") else {
+                print("JSON file not found")
+                return
+            }
+
+            do {
+                let data = try Data(contentsOf: url)
+                let decodedLocations = try JSONDecoder().decode([Location].self, from: data)
+                self.locations = decodedLocations
+            } catch {
+                print("Error loading locations from local storage: \(error)")
+            }
+        }
 }

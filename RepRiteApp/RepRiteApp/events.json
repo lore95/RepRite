@@ -1,0 +1,32 @@
+[
+    {
+        "title": "HardCore",
+        "subtitle": "Kungsträdgården, Stockholm",
+        "locationLat": 59.3293,
+        "locationLon": 18.0686
+    },
+    {
+        "title": "IronMan",
+        "subtitle": "Djurgården, Stockholm",
+        "locationLat": 59.3241,
+        "locationLon": 18.1032
+    },
+    {
+        "title": "CrossXtreme",
+        "subtitle": "Kungsträdgården, Stockholm",
+        "locationLat": 59.3241,
+        "locationLon": 18.1032
+    },
+    {
+        "title": "Basic",
+        "subtitle": "Djurgården, Stockholm",
+        "locationLat": 59.3241,
+        "locationLon": 18.1032
+    },
+    {
+        "title": "Training Session",
+        "subtitle": "Kungsträdgården, Stockholm",
+        "locationLat": 40.3241,
+        "locationLon": 18.1032
+    }
+]
