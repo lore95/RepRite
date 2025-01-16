@@ -7,7 +7,9 @@ struct WelcomeView: View {
     
     var body: some View {
         TabView {
-            HomeView(user: DBController.shared.getUserByEmail(email: viewModel.displayName) ?? RepRiteAuthUser.defaultUser)
+            HomeView(user: DBController.shared.getUserByEmail(email: viewModel.displayName) ??
+                     DBController.shared.getUserByEmail(email: userName) ??
+                     RepRiteAuthUser.defaultUser)
                 .tabItem {
                     Label(
                         "Home",
@@ -23,7 +25,7 @@ struct WelcomeView: View {
                 SensorConnectView(deviceManager: deviceManager)
             }
             .tabItem {
-                Label("Activity", systemImage: "figure.walk")
+                Label("Training", systemImage: "figure.walk")
             }
 
             LogoutView()
